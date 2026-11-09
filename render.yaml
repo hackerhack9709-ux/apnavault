@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: apnavault
+    runtime: python
+    plan: starter
+    buildCommand: pip install -r requirements.txt
+    startCommand: python -m uvicorn app:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /login
+    envVars:
+      - key: VAULT_DATA_DIR
+        value: /var/data
+      - key: COOKIE_SECURE
+        value: "1"
+    disk:
+      name: vault-data
+      mountPath: /var/data
+      sizeGB: 5
